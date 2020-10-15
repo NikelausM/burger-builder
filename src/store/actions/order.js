@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes'
 import axios from '../../axios-orders'
+const SerializeError = require('serialize-error')
 
 export const purchaseBurgerSuccess = (id, orderData) => {
   return {
@@ -22,15 +23,27 @@ export const purchaseBurgerStart = () => {
   }
 }
 
+const purchaseBurgerErrorHandler = (error, orderData, dispatch) => {
+  console.error(error)
+  console.log(orderData)
+  const serializedError = SerializeError.serializeError(error)
+  dispatch(purchaseBurgerFail(serializedError))
+}
+
 export const purchaseBurger = (orderData) => {
   return dispatch => {
-    dispatch(purchaseBurgerStart())
-    axios.post('/orders.json', orderData)
-      .then(response => {
-        dispatch(purchaseBurgerSuccess(response.data, orderData))
-      })
-      .catch(error => {
-        dispatch(purchaseBurgerFail(error))
-      })
+    try {
+      dispatch(purchaseBurgerStart())
+      axios.post('/orders.json', orderData)
+        .then(response => {
+          console.log(`purchaseBurger orders.json response: `, response.data)
+          dispatch(purchaseBurgerSuccess(response.data, orderData))
+        })
+        .catch(error => {
+          purchaseBurgerErrorHandler(error, orderData, dispatch)
+        })
+    } catch (error) {
+      purchaseBurgerErrorHandler(error, orderData, dispatch)
+    }
   }
 }
