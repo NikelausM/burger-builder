@@ -13,7 +13,7 @@ export const purchaseBurgerSuccess = (id, orderData) => {
 export const purchaseBurgerFail = (error) => {
   return {
     type: actionTypes.PURCHASE_BURGER_FAIL,
-    error: error
+    error: SerializeError.serializeError(error)
   }
 }
 
@@ -26,8 +26,7 @@ export const purchaseBurgerStart = () => {
 const purchaseBurgerErrorHandler = (error, orderData, dispatch) => {
   console.error(error)
   console.log(orderData)
-  const serializedError = SerializeError.serializeError(error)
-  dispatch(purchaseBurgerFail(serializedError))
+  dispatch(purchaseBurgerFail(error))
 }
 
 export const purchaseBurger = (orderData) => {
@@ -74,10 +73,10 @@ export const fetchOrdersStart = () => {
   }
 }
 
-export const fetchOrders = () => {
+export const fetchOrders = (token) => {
   return dispatch => {
     dispatch(fetchOrdersStart())
-    axios.get('/orders.json')
+    axios.get(`/orders.json?auth=${token}`)
       .then(res => {
         // do data format changes in action creators
         const fetchedOrders = []
