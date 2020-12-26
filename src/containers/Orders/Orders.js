@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import axios from '../../axios-orders'
 import { connect } from 'react-redux'
 
 import Order from 'components/Order/Order'
 import withErrorHandler from 'hoc/withErrorHandler/withErrorHandler'
+import { axiosOrders } from '../../axios-burger-builder/axios-firebase-rtdb'
 import * as actions from 'store/actions/index'
 import Spinner from 'components/UI/Spinner/Spinner'
 
@@ -23,7 +23,6 @@ class Orders extends Component {
           price={+order.price} />
       ))
     }
-
     return (
       <div>
         {orders}
@@ -45,5 +44,6 @@ const mapDispatchToProps = dispatch => {
     onFetchOrders: (token) => dispatch(actions.fetchOrders(token))
   }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios))
+// export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios))
+// export default connect(mapStateToProps, mapDispatchToProps)(Orders)
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axiosOrders))

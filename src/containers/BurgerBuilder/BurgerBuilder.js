@@ -10,9 +10,8 @@ import BuildControls from 'components/Burger/BuildControls/BuildControls'
 import Modal from 'components/UI/Modal/Modal'
 import OrderSummary from 'components/Burger/OrderSummary/OrderSummary'
 import Spinner from 'components/UI/Spinner/Spinner'
-import withErrorHandler from 'hoc/withErrorHandler/withErrorHandler'
+// import withErrorHandler from 'hoc/withErrorHandler/withErrorHandler'
 import * as actions from 'store/actions/index'
-import axios from '../../axios-orders'
 
 
 class BurgerBuilder extends Component {
@@ -41,7 +40,7 @@ class BurgerBuilder extends Component {
       this.setState({ purchasing: true })
     } else {
       this.props.onSetAuthRedirectPath('/checkout')
-      this.props.history.push('/auth') // error here?
+      this.props.history.push('/auth')
     }
   }
 
@@ -118,4 +117,5 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios))
+// export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios))
+export default connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder)

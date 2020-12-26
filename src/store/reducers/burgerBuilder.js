@@ -57,7 +57,6 @@ const fetchIngredientsFailed = (state, action) => {
 
 const reducer = (state = initialState, action) => {
   try {
-    console.log(action.type)
     switch (action.type) {
       case actionTypes.ADD_INGREDIENT: return addIngredient(state, action)
       case actionTypes.REMOVE_INGREDIENT: return removeIngredient(state, action)

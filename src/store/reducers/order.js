@@ -45,7 +45,6 @@ const fetchOrdersFail = (state, action) => {
 
 const reducer = (state = initialState, action) => {
   try {
-    console.log(action.type)
     switch (action.type) {
       case actionTypes.PURCHASE_INIT: return purchaseInit(state, action)
       case actionTypes.PURCHASE_BURGER_START: return purchaseBurgerStart(state, action)

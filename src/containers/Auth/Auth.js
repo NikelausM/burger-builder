@@ -46,6 +46,7 @@ class Auth extends Component {
   }
 
   componentDidMount() {
+    // If auth page is loaded without building a burger, then reset redirect path to home page.
     if (!this.props.buildingBurger && this.props.authRedirectPath !== '/') {
       this.props.onSetAuthRedirectPath()
     }

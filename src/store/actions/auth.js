@@ -1,6 +1,6 @@
-import axios from 'axios'
 import SerializeError from 'serialize-error'
 
+import { axiosSignup, axiosSignin } from 'axios-burger-builder/axios-firebase-rtdb'
 import * as actionTypes from './actionTypes'
 
 export const authStart = () => {
@@ -38,28 +38,33 @@ export const checkAuthTimeout = (expirationTime) => {
   }
 }
 
-export const auth = (email, password, isSignup) => {
-  return dispatch => {
-    dispatch(authStart())
+const authReq = async (dispatch, email, password, isSignup) => {
+  try {
     const authData = {
       email: email,
       password: password,
       returnSecureToken: true
     }
-    const SIGN_UP_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=`
-    const SIGN_IN_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=`
-    const API_KEY = 'AIzaSyBnexkQdigg9xWXvXYHZQ-omjq_I_GR0aA'
-    const URL = isSignup ? `${SIGN_UP_URL}${API_KEY}` : `${SIGN_IN_URL}${API_KEY}`
-    axios.post(URL, authData)
-      .then(response => {
-        console.log(response)
-        dispatch(authSuccess(response.data.idToken, response.data.localId))
-        dispatch(checkAuthTimeout(response.data.expiresIn))
-      })
-      .catch(error => {
-        console.error(error)
-        dispatch(authFail(error.response.data.error))
-      })
+    const axiosAuth = isSignup ? axiosSignup : axiosSignin
+    console.log('authData: ', authData)
+    const RESPONSE = await axiosAuth.post('', authData)
+    console.log('store/auth response: ', RESPONSE)
+    dispatch(authSuccess(RESPONSE.data.idToken, RESPONSE.data.localId))
+    dispatch(checkAuthTimeout(RESPONSE.data.expiresIn))
+  } catch (error) {
+    throw error
+  }
+}
+
+export const auth = (email, password, isSignup) => {
+  return async dispatch => {
+    try {
+      dispatch(authStart())
+      await authReq(dispatch, email, password, isSignup)
+    } catch (error) {
+      console.log('action/auth error: ', error)
+      dispatch(authFail(error))
+    }
   }
 }
 
