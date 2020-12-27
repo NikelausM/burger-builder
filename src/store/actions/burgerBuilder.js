@@ -32,10 +32,8 @@ export const initIngredients = () => {
   return async dispatch => {
     try {
       const RESPONSE = await axiosIngredients.get()
-      console.log(`initIngredients ingredients.json response: `, RESPONSE.data)
       dispatch(setIngredients(RESPONSE.data))
     } catch (error) {
-      console.error(error)
       dispatch(fetchIngredientsFailed())
     }
   }

@@ -4,7 +4,6 @@ import { axiosOrders } from 'axios-burger-builder/axios-firebase-rtdb'
 const SerializeError = require('serialize-error')
 
 export const purchaseBurgerSuccess = (id, orderData) => {
-  console.log("purchase burger success")
   return {
     type: actionTypes.PURCHASE_BURGER_SUCCESS,
     orderId: id,
@@ -26,8 +25,6 @@ export const purchaseBurgerStart = () => {
 }
 
 const purchaseBurgerErrorHandler = (error, orderData, dispatch) => {
-  console.error(error)
-  console.log(orderData)
   dispatch(purchaseBurgerFail(error))
 }
 
@@ -35,9 +32,8 @@ const orderCreate = async (dispatch, orderData, token) => {
   try {
     const PARAMS = new URLSearchParams({ auth: token })
     const PARAMS_STR = '?' + PARAMS.toString()
-    console.log("orderCreate: ", orderData, PARAMS_STR)
+    // eslint-disable-next-line
     const RESPONSE = await axiosOrders.post(PARAMS_STR, orderData)
-    console.log(`purchaseBurger orders.json response: `, RESPONSE.data)
     await dispatch(purchaseBurgerSuccess())
   } catch (error) {
     throw error
@@ -108,7 +104,6 @@ export const fetchOrders = (token, userId) => {
       const FETCHED_ORDERS = await orderIndex(token, userId)
       dispatch(fetchOrdersSuccess(FETCHED_ORDERS))
     } catch (error) {
-      console.error(error)
       dispatch(fetchOrdersFail(error))
     }
   }

@@ -6,7 +6,7 @@ const DB_URLS = {
   ORDERS: 'orders.json',
 }
 
-const API_KEY = 'AIzaSyBnexkQdigg9xWXvXYHZQ-omjq_I_GR0aA'
+const API_KEY = process.env.REACT_APP_GOOGLE_FIREBASE_API_KEY
 
 const AUTH = {
   SIGN_UP_URL: `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,

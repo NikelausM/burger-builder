@@ -71,7 +71,6 @@ export const auth = (email, password, isSignup) => {
       dispatch(authStart())
       await authReq(dispatch, email, password, isSignup)
     } catch (error) {
-      console.log('action/auth error: ', error)
       dispatch(authFail(error))
     }
   }
