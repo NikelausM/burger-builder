@@ -10,9 +10,9 @@ import BuildControls from 'components/Burger/BuildControls/BuildControls'
 import Modal from 'components/UI/Modal/Modal'
 import OrderSummary from 'components/Burger/OrderSummary/OrderSummary'
 import Spinner from 'components/UI/Spinner/Spinner'
-// import withErrorHandler from 'hoc/withErrorHandler/withErrorHandler'
 import * as actions from 'store/actions/index'
-
+import withErrorHandler from 'hoc/withErrorHandler/withErrorHandler'
+import { axiosBase } from '../../axios-burger-builder/axios-firebase-rtdb'
 
 class BurgerBuilder extends Component {
 
@@ -117,5 +117,5 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-// export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios))
-export default connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder)
+// export default connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder)
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axiosBase))

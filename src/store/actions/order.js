@@ -81,10 +81,11 @@ export const fetchOrdersStart = () => {
   }
 }
 
-const orderIndex = async token => {
+const orderIndex = async (token, userId) => {
   try {
-    const PARAMS = new URLSearchParams({ auth: token })
-    const PARAMS_STR = '?' + PARAMS.toString()
+    const PARAMS = { auth: token, orderBy: `"userId"`, equalTo: `"${userId}"` }
+    const PARAMS_ARR = Object.keys(PARAMS).map(key => `${key}=${PARAMS[key]}`)
+    const PARAMS_STR = `?${PARAMS_ARR.join('&')}`
     const RESPONSE = await axiosOrders.get(PARAMS_STR)
     const fetchedOrders = []
     for (let key in RESPONSE.data) {
@@ -100,16 +101,15 @@ const orderIndex = async token => {
   }
 }
 
-export const fetchOrders = token => {
+export const fetchOrders = (token, userId) => {
   return async dispatch => {
     try {
       dispatch(fetchOrdersStart())
-      const FETCHED_ORDERS = await orderIndex(token)
+      const FETCHED_ORDERS = await orderIndex(token, userId)
       dispatch(fetchOrdersSuccess(FETCHED_ORDERS))
     } catch (error) {
       console.error(error)
       dispatch(fetchOrdersFail(error))
-      throw error
     }
   }
 }

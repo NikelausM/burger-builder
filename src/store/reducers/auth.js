@@ -1,5 +1,5 @@
 import * as actionTypes from 'store/actions/actionTypes'
-import { updateObject } from 'store/utility'
+import { updateObject } from 'shared/utility'
 const SerializeError = require('serialize-error')
 
 const initialState = {

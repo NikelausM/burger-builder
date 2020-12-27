@@ -4,10 +4,11 @@ import { connect } from 'react-redux'
 import Button from 'components/UI/Button/Button'
 import Spinner from 'components/UI/Spinner/Spinner'
 import classes from './ContactData.module.css'
-// import axios from 'axios-burger-builder/axios-firebase-rtdb'
 import Input from 'components/UI/Input/Input'
-// import withErrorHandler from 'hoc/withErrorHandler/withErrorHandler'
 import * as actions from 'store/actions/index'
+import withErrorHandler from 'hoc/withErrorHandler/withErrorHandler'
+import { axiosBase } from 'axios-burger-builder/axios-firebase-rtdb'
+import { updateObject } from 'shared/utility'
 
 class ContactData extends Component {
   state = {
@@ -109,7 +110,8 @@ class ContactData extends Component {
     const order = {
       ingredients: this.props.ingredients,
       price: this.props.totalPrice,
-      orderData: formData
+      orderData: formData,
+      userId: this.props.userId
     }
 
     this.props.onOrderBurger(order, this.props.token)
@@ -144,16 +146,14 @@ class ContactData extends Component {
   }
 
   inputChangedHandler = (event, inputIdentifier) => {
-    const updatedOrderForm = {
-      ...this.state.orderForm
-    }
-    const updatedFormElement = {
-      ...updatedOrderForm[inputIdentifier]
-    }
-    updatedFormElement.value = event.target.value
-    updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation)
-    updatedFormElement.touched = true
-    updatedOrderForm[inputIdentifier] = updatedFormElement
+    const updatedFormElement = updateObject(this.state.orderForm[inputIdentifier], {
+      value: event.target.value,
+      valid: this.checkValidity(event.target.value, this.state.orderForm[inputIdentifier].validation),
+      touched: true
+    })
+    const updatedOrderForm = updateObject(this.state.orderForm, {
+      [inputIdentifier]: updatedFormElement
+    })
 
     let formIsValid = true
     for (let inputIdentifier in updatedOrderForm) {
@@ -206,7 +206,8 @@ const mapStateToProps = state => {
     ingredients: state.burgerBuilder.ingredients,
     totalPrice: state.burgerBuilder.totalPrice,
     loading: state.order.loading,
-    token: state.auth.token
+    token: state.auth.token,
+    userId: state.auth.userId
   }
 }
 
@@ -217,5 +218,5 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-// export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios))
-export default connect(mapStateToProps, mapDispatchToProps)(ContactData)
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axiosBase))
+// export default connect(mapStateToProps, mapDispatchToProps)(ContactData)

@@ -7,6 +7,11 @@ import Button from 'components/UI/Button/Button'
 import Spinner from 'components/UI/Spinner/Spinner'
 import classes from './Auth.module.css'
 import * as actions from 'store/actions/index'
+import withErrorHandler from 'hoc/withErrorHandler/withErrorHandler'
+import { axiosBase } from '../../axios-burger-builder/axios-firebase-rtdb'
+import { updateObject } from 'shared/utility'
+
+const SerializeError = require('serialize-error')
 
 class Auth extends Component {
   state = {
@@ -81,15 +86,13 @@ class Auth extends Component {
   }
 
   inputChangedHandler = (event, controlName) => {
-    const updatedControls = {
-      ...this.state.controls,
-      [controlName]: {
-        ...this.state.controls[controlName],
+    const updatedControls = updateObject(this.state.controls, {
+      [controlName]: updateObject(this.state.controls[controlName], {
         value: event.target.value,
         valid: this.checkValidity(event.target.value, this.state.controls[controlName].validation),
         touched: true
-      }
-    }
+      })
+    })
     this.setState({ controls: updatedControls })
   }
 
@@ -130,9 +133,19 @@ class Auth extends Component {
       form = <Spinner />
     }
 
-    const errorMessage = this.props.error ? (
-      <p>{this.props.error.message}</p>
-    ) : null
+    let errorMessage = null
+    if (this.props.error) {
+      let errorSerialized = SerializeError.serializeError(this.props.error)
+      // console.log("errorSerialized: ", errorSerialized)
+      if (errorSerialized.response.data.error) {
+        errorMessage = errorSerialized.response.data.error.message ?
+          errorSerialized.response.data.error.message :
+          errorSerialized.response.data.error;
+      }
+    }
+    // const errorMessage = this.props.error ? (
+    //   <p>{this.props.error.message}</p>
+    // ) : null
 
     const authRedirect = this.props.isAuthenticated ? (
       <Redirect to={this.props.authRedirectPath} />
@@ -171,4 +184,5 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+// export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Auth, axiosBase))
