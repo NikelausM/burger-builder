@@ -16,13 +16,17 @@ class Orders extends Component {
   render() {
     let orders = <Spinner />
     if (!this.props.loading) {
-      orders = this.props.orders.map(order => (
-        <Order
-          key={order.id}
-          id={order.id}
-          ingredients={order.ingredients}
-          price={+order.price} />
-      ))
+      orders = this.props.orders
+        .slice()
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .map(order => (
+          <Order
+            key={order.id}
+            id={order.id}
+            ingredients={order.ingredients}
+            price={+order.price}
+            date={order.date} />
+        ))
     }
     return (
       <div>
