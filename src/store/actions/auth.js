@@ -25,8 +25,8 @@ export const authFail = (error) => {
 }
 
 export const logout = () => {
-  const ITEMS_TO_REMOVE = ['token', 'expirationDate', 'userId']
-  ITEMS_TO_REMOVE.forEach(item => localStorage.removeItem(item))
+  const itemsToRemove = ['token', 'expirationDate', 'userId']
+  itemsToRemove.forEach(item => localStorage.removeItem(item))
   return {
     type: actionTypes.AUTH_LOGOUT
   }
@@ -48,18 +48,18 @@ const authReq = async (dispatch, email, password, isSignup) => {
       returnSecureToken: true
     }
     const axiosAuth = isSignup ? axiosSignup : axiosSignin
-    const RESPONSE = await axiosAuth.post('', authData)
+    const response = await axiosAuth.post('', authData)
     // access local storage
-    const expirationDate = new Date(new Date().getTime() + RESPONSE.data.expiresIn * 1000)
-    const ITEMS_TO_SET = {
-      token: RESPONSE.data.idToken,
+    const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000)
+    const itemsToSet = {
+      token: response.data.idToken,
       expirationDate: expirationDate,
-      userId: RESPONSE.data.localId
+      userId: response.data.localId
     }
-    Object.keys(ITEMS_TO_SET).forEach(key => localStorage.setItem(key, ITEMS_TO_SET[key]))
+    Object.keys(itemsToSet).forEach(key => localStorage.setItem(key, itemsToSet[key]))
 
-    dispatch(authSuccess(RESPONSE.data.idToken, RESPONSE.data.localId))
-    dispatch(checkAuthTimeout(RESPONSE.data.expiresIn))
+    dispatch(authSuccess(response.data.idToken, response.data.localId))
+    dispatch(checkAuthTimeout(response.data.expiresIn))
   } catch (error) {
     throw error
   }

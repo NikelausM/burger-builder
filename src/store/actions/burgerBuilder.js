@@ -31,8 +31,8 @@ export const fetchIngredientsFailed = () => {
 export const initIngredients = () => {
   return async dispatch => {
     try {
-      const RESPONSE = await axiosIngredients.get()
-      dispatch(setIngredients(RESPONSE.data))
+      const response = await axiosIngredients.get()
+      dispatch(setIngredients(response.data))
     } catch (error) {
       dispatch(fetchIngredientsFailed())
     }

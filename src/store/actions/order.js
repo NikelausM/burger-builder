@@ -30,10 +30,10 @@ const purchaseBurgerErrorHandler = (error, orderData, dispatch) => {
 
 const orderCreate = async (dispatch, orderData, token) => {
   try {
-    const PARAMS = new URLSearchParams({ auth: token })
-    const PARAMS_STR = '?' + PARAMS.toString()
+    const params = new URLSearchParams({ auth: token })
+    const PARAMS_STR = '?' + params.toString()
     // eslint-disable-next-line
-    const RESPONSE = await axiosOrders.post(PARAMS_STR, orderData)
+    const response = await axiosOrders.post(PARAMS_STR, orderData)
     await dispatch(purchaseBurgerSuccess())
   } catch (error) {
     throw error
@@ -79,14 +79,14 @@ export const fetchOrdersStart = () => {
 
 const orderIndex = async (token, userId) => {
   try {
-    const PARAMS = { auth: token, orderBy: `"userId"`, equalTo: `"${userId}"` }
-    const PARAMS_ARR = Object.keys(PARAMS).map(key => `${key}=${PARAMS[key]}`)
-    const PARAMS_STR = `?${PARAMS_ARR.join('&')}`
-    const RESPONSE = await axiosOrders.get(PARAMS_STR)
+    const params = { auth: token, orderBy: `"userId"`, equalTo: `"${userId}"` }
+    const params_arr = Object.keys(params).map(key => `${key}=${params[key]}`)
+    const PARAMS_STR = `?${params_arr.join('&')}`
+    const response = await axiosOrders.get(PARAMS_STR)
     const fetchedOrders = []
-    for (let key in RESPONSE.data) {
+    for (let key in response.data) {
       fetchedOrders.push({
-        ...RESPONSE.data[key],
+        ...response.data[key],
         id: key
       })
     }
@@ -101,8 +101,8 @@ export const fetchOrders = (token, userId) => {
   return async dispatch => {
     try {
       dispatch(fetchOrdersStart())
-      const FETCHED_ORDERS = await orderIndex(token, userId)
-      dispatch(fetchOrdersSuccess(FETCHED_ORDERS))
+      const fetchedOrders = await orderIndex(token, userId)
+      dispatch(fetchOrdersSuccess(fetchedOrders))
     } catch (error) {
       dispatch(fetchOrdersFail(error))
     }
