@@ -12,7 +12,7 @@ import * as serviceWorker from './serviceWorker';
 import burgerBuilderReducer from 'store/reducers/burgerBuilder'
 import orderReducer from 'store/reducers/order'
 import authReducer from 'store/reducers/auth'
-import { logoutSaga } from 'store/sagas/auth'
+import { watchAuth, watchBurgerBuilder, watchOrder } from 'store/sagas/index'
 
 // make redux dev tools only available in development environment
 const composeEnhancers = process.env.NODE_ENV === 'development'
@@ -26,15 +26,15 @@ const rootReducer = combineReducers({
   auth: authReducer
 })
 
-// const sagaMiddleware = createSagaMiddleware()
+const sagaMiddleware = createSagaMiddleware()
 
 const store = createStore(rootReducer, composeEnhancers(
-  // applyMiddleware(thunk, sagaMiddleware)
-  applyMiddleware(thunk)
+  // applyMiddleware(thunk)
+  applyMiddleware(thunk, sagaMiddleware)
 ))
 
-// sagaMiddleware.run(logoutSaga)
-
+const sagaWatchers = [watchAuth, watchBurgerBuilder, watchOrder]
+sagaWatchers.forEach(sagaWatcher => sagaMiddleware.run(sagaWatcher));
 
 const app = (
   <Provider store={store}>

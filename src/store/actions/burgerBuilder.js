@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
-import { axiosIngredients } from 'axios-burger-builder/axios-firebase-rtdb'
+
+const SerializeError = require('serialize-error')
 
 export const addIngredient = (name) => {
   return {
@@ -22,19 +23,15 @@ export const setIngredients = (ingredients) => {
   }
 }
 
-export const fetchIngredientsFailed = () => {
+export const fetchIngredientsFailed = (error) => {
   return {
-    type: actionTypes.FETCH_INGREDIENTS_FAILED
+    type: actionTypes.FETCH_INGREDIENTS_FAILED,
+    error: SerializeError.serializeError(error)
   }
 }
 
 export const initIngredients = () => {
-  return async dispatch => {
-    try {
-      const response = await axiosIngredients.get()
-      dispatch(setIngredients(response.data))
-    } catch (error) {
-      dispatch(fetchIngredientsFailed())
-    }
+  return {
+    type: actionTypes.INIT_INGREDIENTS
   }
 }
