@@ -1,4 +1,4 @@
-import { put, delay } from 'redux-saga/effects'
+import { put, delay, call } from 'redux-saga/effects'
 
 import * as actions from 'store/actions/index'
 import { axiosSignup, axiosSignin } from 'axios-burger-builder/axios-firebase-rtdb'
@@ -11,7 +11,9 @@ import { axiosSignup, axiosSignin } from 'axios-burger-builder/axios-firebase-rt
  */
 export function* logoutSaga(action) {
   const itemsToRemove = ['token', 'expirationDate', 'userId']
-  itemsToRemove.forEach(item => localStorage.removeItem(item))
+  // itemsToRemove.forEach(item => localStorage.removeItem(item))
+  // use call to make code more testable (able to create mocks)
+  itemsToRemove.forEach(item => call([localStorage, 'removeItem'], item))
   yield put(actions.logoutSuccess())
 }
 
@@ -42,7 +44,9 @@ function* authReq(action) {
       expirationDate: expirationDate,
       userId: response.data.localId
     }
-    Object.keys(itemsToSet).forEach(key => localStorage.setItem(key, itemsToSet[key]))
+    // Object.keys(itemsToSet).forEach(key => localStorage.setItem(key, itemsToSet[key]))
+    // use call to make code more testable (able to create mocks)
+    Object.keys(itemsToSet).forEach(key => call([localStorage, 'setItem'], key, itemsToSet[key]))
 
     return response
 
