@@ -1,4 +1,4 @@
-import { put, delay, call, all } from 'redux-saga/effects'
+import { put, delay, all } from 'redux-saga/effects'
 
 import * as actions from 'store/actions/index'
 import { axiosSignup, axiosSignin } from 'axios-burger-builder/axios-firebase-rtdb'
