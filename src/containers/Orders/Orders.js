@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import Order from 'components/Order/Order'
@@ -7,33 +7,33 @@ import { axiosOrders } from '../../axios-burger-builder/axios-firebase-rtdb'
 import * as actions from 'store/actions/index'
 import Spinner from 'components/UI/Spinner/Spinner'
 
-class Orders extends Component {
+const Orders = props => {
 
-  componentDidMount() {
-    this.props.onFetchOrders(this.props.token, this.props.userId)
-  }
+  const { onFetchOrders, token, userId } = props
 
-  render() {
-    let orders = <Spinner />
-    if (!this.props.loading) {
-      orders = this.props.orders
-        .slice()
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .map(order => (
-          <Order
-            key={order.id}
-            id={order.id}
-            ingredients={order.ingredients}
-            price={+order.price}
-            date={order.date} />
-        ))
-    }
-    return (
-      <div>
-        {orders}
-      </div >
-    )
+  useEffect(() => {
+    onFetchOrders(token, userId)
+  }, [onFetchOrders, token, userId])
+
+  let orders = <Spinner />
+  if (!props.loading) {
+    orders = props.orders
+      .slice()
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .map(order => (
+        <Order
+          key={order.id}
+          id={order.id}
+          ingredients={order.ingredients}
+          price={+order.price}
+          date={order.date} />
+      ))
   }
+  return (
+    <div>
+      {orders}
+    </div >
+  )
 }
 
 const mapStateToProps = state => {
@@ -51,4 +51,8 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axiosOrders))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps)(withErrorHandler(
+    Orders,
+    axiosOrders))
