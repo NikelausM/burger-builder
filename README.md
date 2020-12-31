@@ -51,7 +51,7 @@ yarn start
 <img src="./images/screenshots/main page.PNG alt="A screenshot of the landing page.">
 
 ### Authentication Page
-<img src="auth page.PNG" alt="A screenshot of the login page.">
+<img src="./images/screenshots/auth page.PNG" alt="A screenshot of the login page.">
 
 ### Stores List Page
 <img src="./images/screenshots/orders page.PNG" alt="A screenshot of the orders page.">
