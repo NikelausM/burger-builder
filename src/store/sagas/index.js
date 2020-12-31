@@ -23,10 +23,10 @@ import {
 export function* watchAuth() {
   // yield all asynchronously
   yield all([
+    takeEvery(actionTypes.AUTH_CHECK_STATE, authCheckStateSaga),
     takeEvery(actionTypes.AUTH_INITIATE_LOGOUT, logoutSaga),
-    takeEvery(actionTypes.AUTH_CHECK_TIMEOUT, checkAuthTimeoutSaga),
     takeEvery(actionTypes.AUTH, authSaga),
-    takeEvery(actionTypes.AUTH_CHECK_STATE, authCheckStateSaga)
+    takeEvery(actionTypes.AUTH_CHECK_TIMEOUT, checkAuthTimeoutSaga)
   ])
 }
 

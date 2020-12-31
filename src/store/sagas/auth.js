@@ -1,21 +1,31 @@
-import { put, delay, call } from 'redux-saga/effects'
+import { put, delay, call, all } from 'redux-saga/effects'
 
 import * as actions from 'store/actions/index'
 import { axiosSignup, axiosSignin } from 'axios-burger-builder/axios-firebase-rtdb'
 
-/**
- * Executes side effects on dispatch of this saga's action.
- * Side effects include: 
- * * Removing local storage authentication variables.
- * @param {*} action 
- */
-export function* logoutSaga(action) {
-  const itemsToRemove = ['token', 'expirationDate', 'userId']
-  // itemsToRemove.forEach(item => localStorage.removeItem(item))
-  // use call to make code more testable (able to create mocks)
-  itemsToRemove.forEach(item => call([localStorage, 'removeItem'], item))
+// Not using redux-saga/effects call function works
+export function* logoutSagaNotUsingCall(action, localStorageUsed = localStorage, itemsToRemove = ['token', 'expirationDate', 'userId']) {
+
+  itemsToRemove.forEach(item => localStorageUsed.removeItem(item))
+
   yield put(actions.logoutSuccess())
 }
+
+export function* logoutSagaNotUsingCallUsingForEach(action, localStorageUsed = localStorage, itemsToRemove = ['token', 'expirationDate', 'userId']) {
+
+  itemsToRemove.forEach(item => localStorageUsed.removeItem(item))
+
+  yield put(actions.logoutSuccess())
+}
+
+export function* logoutSagaNotUsingCallUsingMap(action, localStorageUsed = localStorage, itemsToRemove = ['token', 'expirationDate', 'userId']) {
+
+  itemsToRemove.map(item => localStorageUsed.removeItem(item))
+
+  yield put(actions.logoutSuccess())
+}
+
+export const logoutSaga = logoutSagaNotUsingCallUsingMap
 
 /**
  * Executes side effects on dispatch of this saga's action.
@@ -44,9 +54,10 @@ function* authReq(action) {
       expirationDate: expirationDate,
       userId: response.data.localId
     }
-    // Object.keys(itemsToSet).forEach(key => localStorage.setItem(key, itemsToSet[key]))
-    // use call to make code more testable (able to create mocks)
-    Object.keys(itemsToSet).forEach(key => call([localStorage, 'setItem'], key, itemsToSet[key]))
+
+    yield all(Object.keys(itemsToSet)
+      .map(key => localStorage.setItem(key, itemsToSet[key]))
+    )
 
     return response
 
@@ -68,7 +79,7 @@ export function* authSaga(action) {
     yield put(actions.authSuccess(response.data.idToken, response.data.localId))
     yield put(actions.checkAuthTimeout(response.data.expiresIn))
   } catch (error) {
-    yield put(action.authFail(error))
+    yield put(actions.authFail(error))
   }
 }
 
@@ -78,6 +89,7 @@ export function* authSaga(action) {
  * * Checking authentication state.
  * @param {*} action 
  */
+// problem in this function!!!!!
 export function* authCheckStateSaga(action) {
   const token = localStorage.getItem('token')
   if (!token) {
