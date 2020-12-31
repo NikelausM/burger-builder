@@ -1,4 +1,4 @@
-<strong>Note: This README document is still being worked on.</strong>
+<strong>Note: This project, including this README document is still being worked on.</strong>
 
 ## Currently deployed to: https://burger-builder-nikelausm.web.app/
 
