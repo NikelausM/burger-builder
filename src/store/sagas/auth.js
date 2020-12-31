@@ -1,12 +1,14 @@
-import { put, delay, all } from 'redux-saga/effects'
+import { put, delay, all, call } from 'redux-saga/effects'
 
 import * as actions from 'store/actions/index'
 import { axiosSignup, axiosSignin } from 'axios-burger-builder/axios-firebase-rtdb'
 
-// Not using redux-saga/effects call function works
+// Not using redux-saga/effects call function DOES work
 export function* logoutSagaNotUsingCall(action, localStorageUsed = localStorage, itemsToRemove = ['token', 'expirationDate', 'userId']) {
 
-  itemsToRemove.forEach(item => localStorageUsed.removeItem(item))
+  for (const item of itemsToRemove) {
+    localStorageUsed.removeItem(item)
+  }
 
   yield put(actions.logoutSuccess())
 }
@@ -21,6 +23,30 @@ export function* logoutSagaNotUsingCallUsingForEach(action, localStorageUsed = l
 export function* logoutSagaNotUsingCallUsingMap(action, localStorageUsed = localStorage, itemsToRemove = ['token', 'expirationDate', 'userId']) {
 
   itemsToRemove.map(item => localStorageUsed.removeItem(item))
+
+  yield put(actions.logoutSuccess())
+}
+
+// Using redux-saga/effects call function DOESN'T work
+export function* logoutSagaUsingCall(action, localStorageUsed = localStorage, itemsToRemove = ['token', 'expirationDate', 'userId']) {
+
+  for (const item of itemsToRemove) {
+    yield call([localStorageUsed, 'removeItem'], item)
+  }
+
+  yield put(actions.logoutSuccess())
+}
+
+export function* logoutSagaUsingCallUsingForEach(action, localStorageUsed = localStorage, itemsToRemove = ['token', 'expirationDate', 'userId']) {
+
+  yield itemsToRemove.forEach(item => call([localStorageUsed, 'removeItem'], item))
+
+  yield put(actions.logoutSuccess())
+}
+
+export function* logoutSagaUsingCallUsingMap(action, localStorageUsed = localStorage, itemsToRemove = ['token', 'expirationDate', 'userId']) {
+
+  yield all(itemsToRemove.map(item => call([localStorageUsed, 'removeItem'], item)))
 
   yield put(actions.logoutSuccess())
 }

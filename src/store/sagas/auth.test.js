@@ -12,7 +12,8 @@ describe('Logout saga functionality', () => {
     }
   })
 
-  it(`Not using call ${IT_MESSAGE}`, () => {
+  // Test NOT USING CALL
+  it(`Not using call, but using for loop ${IT_MESSAGE}`, () => {
     const gen = cloneableGenerator(logoutSagas.logoutSagaNotUsingCall)(null, localStorageFake)
     const clone = gen.clone()
 
@@ -46,7 +47,42 @@ describe('Logout saga functionality', () => {
     while (!result.done) {
       result = clone.next()
     }
+  })
+
+  // Test USING CALL
+  it(`Using call, and using for loop ${IT_MESSAGE}`, () => {
+    const gen = cloneableGenerator(logoutSagas.logoutSagaUsingCall)(null, localStorageFake)
+    const clone = gen.clone()
+
+    let result = clone.next()
+    while (!result.done) {
+      result = clone.next()
+    }
 
     authVars.forEach(authVar => expect(localStorageFake.getItem(authVar)).toEqual(null))
+  })
+
+  it(`Using call, and using forEach ${IT_MESSAGE}`, () => {
+    const gen = cloneableGenerator(
+      logoutSagas.logoutSagaUsingCallUsingForEach)(null, localStorageFake)
+    const clone = gen.clone()
+
+    let result = clone.next()
+    while (!result.done) {
+      result = clone.next()
+    }
+
+    authVars.forEach(authVar => expect(localStorageFake.getItem(authVar)).toEqual(null))
+  })
+
+  it(`Using call, and using map ${IT_MESSAGE}`, () => {
+    const gen = cloneableGenerator(
+      logoutSagas.logoutSagaUsingCallUsingMap)(null, localStorageFake)
+    const clone = gen.clone()
+
+    let result = clone.next()
+    while (!result.done) {
+      result = clone.next()
+    }
   })
 })
