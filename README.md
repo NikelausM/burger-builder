@@ -3,7 +3,7 @@
     <img src="./images/icons/redux-saga.png" alt="Redux Saga icon / logo.">
 </p>
 
-# Pricing Service
+# Burger Builder
 
 ## Table of Contents
 - [Introduction](#introduction)
