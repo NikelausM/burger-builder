@@ -1,72 +1,66 @@
-<strong>Note: This project, including this README document is still being worked on.</strong>
+<p align="center">
+    <img src="./images/icons/react-redux.png" alt="React and Redux icon / logo." >
+    <img src="./images/icons/redux-saga.png" alt="Redux Saga icon / logo.">
+</p>
 
-## Currently deployed to: https://burger-builder-nikelausm.web.app/
+# Pricing Service
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of Contents
+- [Introduction](#introduction)
+- [Features](#features)
+- [Launch](#launch)
+- [Screenshots](#screenshots)
+- [Technologies](#technologies)
+- [Certificate](#certificate)
 
-## Available Scripts
+## Introduction
+Burger Builder is a mobile friendly React.js (front-end) and Firebase (back-end) burger builder web application built using Create React App (webpack setup creator).
 
-In the project directory, you can run:
+This web application was done as a capstone project for the Udemy course, [React - The Complete Guide (incl Hooks, React Router, Redux)](https://www.udemy.com/course/react-the-complete-guide-incl-redux/).
 
-### `npm start`
+## Features
+- Sign-up / Sign-in.
+- Create burger by adding ingredients.
+- Checkout page for creating burger order.
+- Order page for seeing your previous orders, sorted by date created.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+## Launch
+### Setup
+To install, in the terminal enter:
+```
+npm install
+```
+or, 
+```
+yarn install
+```
+To run application, in the terminal enter:
+```
+npm install
+```
+or, 
+```
+yarn start
+```
 
 ### Deployment
+[Check out the website hosted on firebase!](https://burger-builder-nikelausm.web.app/)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+## Screenshots
+### Landing Page
+<img src="./images/screenshots/main page.PNG alt="A screenshot of the landing page.">
 
-### `npm run build` fails to minify
+### Authentication Page
+<img src="auth page.PNG" alt="A screenshot of the login page.">
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### Stores List Page
+<img src="./images/screenshots/orders page.PNG" alt="A screenshot of the orders page.">
+
+### Checkout Page
+<img src="./images/screenshots/checkout contact-data page.PNG" alt="A screenshot of the checkout page.">
+
+## Technologies
+...need to add this still
+
+## Certificate
+<img src="./images/Certificate_of_Completion.jpg" alt="The Certificate of Completion for the React course.">
