@@ -20,7 +20,7 @@ const Auth = React.lazy(() => {
 });
 
 const App = props => {
-  console.log("window.location.href url: ", window.location.href)
+  // console.log("window.location.href url: ", window.location.href)
 
   const { onTryAutoSignup } = props
 
@@ -37,7 +37,7 @@ const App = props => {
   );
 
   if (props.isAuthenticated) {
-    console.log("props.isAuthenticated window.location.href url: ", window.location.href)
+    // console.log("props.isAuthenticated window.location.href url: ", window.location.href)
     routes = (
       <Switch>
         <Route path="/checkout" render={props => <Checkout {...props} />} />
