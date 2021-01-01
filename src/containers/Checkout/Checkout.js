@@ -17,7 +17,10 @@ const Checkout = props => {
 
   let summary = <Redirect to="/" />
   if (props.ingredients) {
-    const purchasedRedirect = props.purchased ? <Redirect to="/" /> : null
+    let purchasedRedirect = null
+    if (props.purchased) {
+      purchasedRedirect = <Redirect to="/" />
+    }
     summary = (
       <div>
         {purchasedRedirect}
@@ -42,4 +45,5 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(Checkout)
+export default connect(
+  mapStateToProps)(Checkout)

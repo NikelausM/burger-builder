@@ -37,11 +37,16 @@ const BurgerBuilder = props => {
     [dispatch]
   )
   const onInitPurchase = () => dispatch(actions.purchaseInit())
+  const onResetPurchased = useCallback(
+    () => dispatch(actions.resetPurchased()),
+    [dispatch]
+  )
   const onSetAuthRedirectPath = path => dispatch(actions.setAuthRedirectPath(path))
 
   useEffect(() => {
     onInitIngredients()
-  }, [onInitIngredients])
+    onResetPurchased()
+  }, [onInitIngredients, onResetPurchased])
 
   const updatePurchaseState = (ingredients) => {
     const sum = Object.keys(ingredients)

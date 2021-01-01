@@ -37,6 +37,12 @@ export const purchaseInit = () => {
   }
 }
 
+export const resetPurchased = () => {
+  return {
+    type: actionTypes.RESET_PURCHASED
+  }
+}
+
 export const fetchOrdersSuccess = (orders) => {
   return {
     type: actionTypes.FETCH_ORDERS_SUCCESS,

@@ -127,9 +127,9 @@ const Auth = props => {
   //   <p>{props.error.message}</p>
   // ) : null
 
-  const authRedirect = props.isAuthenticated ? (
-    <Redirect to={props.authRedirectPath} />
-  ) : null
+  const authRedirect = props.isAuthenticated
+    ? (<Redirect to={props.authRedirectPath} />)
+    : null
 
   return (
     <div className={classes.Auth}>

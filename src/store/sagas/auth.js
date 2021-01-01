@@ -39,7 +39,9 @@ export function* logoutSagaUsingCall(action, localStorageUsed = localStorage, it
 
 export function* logoutSagaUsingCallUsingForEach(action, localStorageUsed = localStorage, itemsToRemove = ['token', 'expirationDate', 'userId']) {
 
-  yield itemsToRemove.forEach(item => call([localStorageUsed, 'removeItem'], item))
+  itemsToRemove.forEach(function* (item, localStorageUsed) {
+    yield call([localStorageUsed, 'removeItem'], item)
+  })
 
   yield put(actions.logoutSuccess())
 }
@@ -115,7 +117,6 @@ export function* authSaga(action) {
  * * Checking authentication state.
  * @param {*} action 
  */
-// problem in this function!!!!!
 export function* authCheckStateSaga(action) {
   const token = localStorage.getItem('token')
   if (!token) {
