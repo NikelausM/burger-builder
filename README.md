@@ -3,7 +3,7 @@
     <img src="./images/icons/redux-saga.png" alt="Redux Saga icon / logo.">
 </p>
 
-# Pricing Service
+# Burger Builder
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -48,7 +48,7 @@ yarn start
 
 ## Screenshots
 ### Landing Page
-<img src="./images/screenshots/main page.PNG alt="A screenshot of the landing page.">
+<img src="./images/screenshots/main page.PNG" alt="A screenshot of the landing page.">
 
 ### Authentication Page
 <img src="./images/screenshots/auth page.PNG" alt="A screenshot of the login page.">
@@ -79,6 +79,7 @@ yarn start
 - [redux-saga](https://www.npmjs.com/package/redux-saga)
 - [redux-thunk](https://www.npmjs.com/package/redux-thunk)
 - [serialize-error](https://www.npmjs.com/package/serialize-error)
+- [firebase](https://firebase.google.com/)
 
 ## Certificate
 <img src="./images/Certificate_of_Completion.jpg" alt="The Certificate of Completion for the React course.">
